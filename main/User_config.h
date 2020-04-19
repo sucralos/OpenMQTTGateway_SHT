@@ -120,7 +120,8 @@ char gateway_name[parameters_size * 2] = Gateway_Name;
   //uint8_t wifiProtocol = WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G; // can't have only one https://github.com/espressif/esp-idf/issues/702
   //uint8_t wifiProtocol = WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G | WIFI_PROTOCOL_11N; // can't have only one https://github.com/espressif/esp-idf/issues/702
 #elif ESP8266
-  uint8_t wifiProtocol = 0; // default mode, automatic selection
+  #include "ESP8266WiFi.h"
+  WiFiPhyMode_t wifiProtocol = WIFI_PHY_MODE_11G; // default mode, automatic selection
   //uint8_t wifiProtocol = WIFI_PHY_MODE_11B;
   //uint8_t wifiProtocol = WIFI_PHY_MODE_11G;
   //uint8_t wifiProtocol = WIFI_PHY_MODE_11N;
@@ -151,6 +152,7 @@ char gateway_name[parameters_size * 2] = Gateway_Name;
 //#define ZsensorDS1820  "DS1820"   //ESP8266, Arduino, ESP32
 //#define ZsensorGPIOKeyCode "GPIOKeyCode" //ESP8266, Arduino, ESP32
 //#define ZsensorGPIOInput "GPIOInput" //ESP8266, Arduino, ESP32
+//#define ZsensorSHT3x    "SHT3x"
 //#define ZmqttDiscovery "HADiscovery"//ESP8266, Arduino, ESP32, Sonoff RF Bridge
 //#define ZactuatorFASTLED "FASTLED"  //ESP8266, Arduino, ESP32, Sonoff RF Bridge
 

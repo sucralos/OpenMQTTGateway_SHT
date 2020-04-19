@@ -109,6 +109,9 @@ unsigned long ReceivedSignal[array_size][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
 #ifdef ZactuatorFASTLED
 #include "config_FASTLED.h"
 #endif
+#ifdef ZsensorSHT3x
+  #include "config_SHT3x.h"
+#endif
 
 /*------------------------------------------------------------------------*/
 
@@ -586,6 +589,9 @@ void setup()
 
   lastMQTTReconnectAttempt = 0;
 
+  #ifdef ZsensorSHT3x
+    setupZsensorSHT3x();
+  #endif
   #ifdef ZsensorBME280
   setupZsensorBME280();
   #endif
@@ -747,7 +753,7 @@ void disconnection_handling( int failure_number){
     wifiProtocol = 0;
     #endif
     #ifdef ESP8266
-    wifiProtocol = 0;
+    wifiProtocol = WIFI_PHY_MODE_11G;
     #endif
     Log.warning(F("Wifi Protocol reverted to normal mode: %d" CR), wifiProtocol);
     reinit_wifi();
@@ -1142,6 +1148,9 @@ void loop()
       #ifdef ZsensorBME280
       MeasureTempHumAndPressure(); //Addon to measure Temperature, Humidity, Pressure and Altitude with a Bosch BME280
       #endif
+      #ifdef ZsensorSHT3x
+      MeasureTempAndHum();
+      #endif
       #ifdef ZsensorHCSR04
       MeasureDistance(); //Addon to measure distance with a HC-SR04
       #endif
@@ -1266,6 +1275,9 @@ void stateMeasures()
     #endif
     #ifdef ZsensorBME280
     modules = modules + ZsensorBME280;
+    #endif
+    #ifdef ZsensorSHT3x
+    modules = modules + ZsensorSHT3x;
     #endif
     #ifdef ZsensorHCSR04
     modules = modules + ZsensorHCSR04;
